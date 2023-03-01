@@ -1,0 +1,117 @@
+<app-header ></app-header>
+<div
+  class="container text-center min-vh-100 d-flex flex-column aligns-items-center justify-content-center"
+>
+<div>
+  <input type="text" class="form-control " id="search-text" aria-describedby="search-text"
+    [(ngModel)]="searchText" placeholder="Enter task to search"
+    autofocus>
+</div>
+  <div class="row">
+    <div class="card-header my-3">
+      <h1>Tasks To Do {{ getPendingTasks() }}</h1>
+    </div>
+
+    <div class="col   col-   text-center ">
+          <table class="table table-hover table-striped  table-bordered ">
+            <thead  >
+              <tr>
+                <th class="th-sm" scope="col" >#</th>
+                <th class="th-sm" scope="col">Task</th>
+                <th class="th-sm" scope="col">Date</th>
+                <th class="th-sm" scope="col">Details</th>
+                <th class="th-sm" scope="col">Status</th>
+                <th  class="th-sm" scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody  >
+              <tr
+                *ngFor="let item of allTasks | filter: searchText; let i = index "
+
+                [ngClass]="{
+                  'color-green': item.isDone,
+                  'color-red': !item.isDone
+                }"
+              >
+                <th scope="row">{{ i + 1 }}</th>
+                <td >{{ item.title }}</td>
+                <td>{{ item.createDate | date}}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark btn-rounded"
+                    data-mdb-ripple-color="dark"
+                    routerLink="/details/{{ item.id }}"
+                  >
+                    Details
+                  </button>
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    [checked]="item.isDone"
+                    (change)="updateTask(item)"
+                  />
+                </td>
+                <td>
+                  <button class="btn btn-secondary " (click)="deletedTask(i)">
+                    Remove
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="allTasks.length === 0 && !isLoadingData">
+                <td colspan="4">No Tasks Found</td>
+              </tr>
+              <tr *ngIf="isLoadingData">
+                <td colspan="4">
+                  <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only"></span>
+                    </div>
+                    <p class="mx-3">Loading ....</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+    </div>
+    <div class="col col- ">
+      <form >
+        <div class="form-floating py-3 ">
+          <input
+            type="text"
+            #inputTitle
+            [value]="inputTitle.value"
+            class="form-control"
+            id="floatingInput"
+            placeholder="FirstName"
+          />
+          <label for="floatingInput" >Task</label>
+        </div>
+        <div
+          class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5 flex-column "
+        >
+          <button
+            type="button"
+            class="btn btn-secondary "
+            (click)="addTask(inputTitle.value)"
+          >
+            Add Task
+          </button>
+
+          <a class="btn btn-secondary px-5" routerLink="/home" role="button"
+            >Back</a
+          >
+          <a
+            class="btn btn-secondary px-5"
+            role="button"
+            (click)="handleCancel()"
+            >Cancel</a
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

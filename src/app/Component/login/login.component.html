@@ -1,0 +1,84 @@
+<div class=" bg-image p-5 text-center shadow-1-strong rounded text-white d-flex justify-content-center align-items-center"   style="
+background-image: url('../../../assets/images/offwhite.jpeg');
+height: 100vh;
+">
+<div class="container my-5">
+  <form [formGroup]="form" >
+    <div class="form-group row">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input
+          type="email"
+          formControlName="Email"
+          class="form-control"
+          placeholder="Email"
+          [class.is-invalid]="form.controls['Email'].errors"
+        />
+        <div
+          class="alert alert-danger my-4"
+          role="alert"
+          *ngIf="
+            form.controls['Email'].invalid && form.controls['Email'].value != ''
+          "
+        >
+          Email inValid
+        </div>
+        <div
+          class="alert alert-danger my-4"
+          role="alert"
+          *ngIf="form.controls['Email'].value == ''"
+        >
+          Email is empty
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row my-4">
+      <label for="inputPassword3" class="col-sm-2 col-form-label"
+        >Password</label
+      >
+      <div class="col-sm-10">
+        <input
+          type="password"
+          formControlName="Password"
+          class="form-control"
+          placeholder="Password"
+          [class.is-invalid]="form.controls['Password'].errors"
+        />
+        <div
+          class="alert alert-danger my-4"
+          role="alert"
+          *ngIf="form.controls['Password'].value!=''&& form.controls['Password'].errors?.['minlength']  "
+        >
+          Password Length must be at least 6 characters
+        </div>
+        <div
+          class="alert alert-danger my-4"
+          role="alert"
+          *ngIf="form.controls['Password'].value == ''"
+        >
+          Password is empty
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-10">
+        <button
+          type="submit"
+          (click)="isLogin()"
+          class="btn btn-secondary m-4"
+          [disabled]="form.invalid"
+        >
+          Sign in
+        </button>
+        <!-- <button (click)="removePasswordValidators()" class="btn btn-secondary mx-4"> Remove Password Validation</button> -->
+        <a class="btn btn-secondary px-5" routerLink="/home" role="button"
+        >Back</a
+      >
+      </div>
+    </div>
+  </form>
+</div>
+
+</div>
